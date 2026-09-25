@@ -119,9 +119,26 @@ _MONTE_CARLO_COMMAND = (
 )
 
 
+# Risultati e analisi di una simulazione, come li restituiscono le funzioni in
+# cache: solo tipi definiti nei moduli del pacchetto. st.cache_data li salva con
+# pickle, che ritrova ogni classe tramite il modulo in cui è definita. Streamlit
+# esegue questo file come modulo __main__ e lo sostituisce a ogni esecuzione,
+# anche fra visitatori collegati insieme: una classe definita qui, come
+# _Mission, non si potrebbe salvare in modo affidabile.
+_Analysis = tuple[
+    SimulationResults,
+    MissionConfig,
+    MissionMetrics,
+    PointingEnergyTrade,
+    BatterySizingTrade | str,
+]
+
+
 @dataclass(frozen=True, eq=False)
 class _Mission:
     """Una simulazione con le analisi già calcolate.
+
+    Si costruisce fuori dalle funzioni in cache (vedi ``_Analysis``).
 
     Attributes:
         description: da dove vengono i risultati, per la didascalia.
@@ -141,7 +158,7 @@ class _Mission:
     battery: BatterySizingTrade | str
 
 
-def _analyse(results: SimulationResults, description: str) -> _Mission:
+def _analyse(results: SimulationResults) -> _Analysis:
     """Calcola metriche e studi di compromesso di una simulazione."""
     config = MissionConfig.model_validate(results.metadata["config"])
     battery: BatterySizingTrade | str
@@ -149,33 +166,27 @@ def _analyse(results: SimulationResults, description: str) -> _Mission:
         battery = battery_sizing_trade(results)
     except ValueError as error:
         battery = str(error)
-    return _Mission(
-        description=description,
-        results=results,
-        config=config,
-        metrics=compute_metrics(results),
-        energy=pointing_energy_trade(config),
-        battery=battery,
+    return (
+        results,
+        config,
+        compute_metrics(results),
+        pointing_energy_trade(config),
+        battery,
     )
 
 
 @st.cache_data(show_spinner=False)
-def _load_saved(directory: str, modified_ns: int) -> _Mission:
+def _load_saved(directory: str, modified_ns: int) -> _Analysis:
     """Legge e analizza i risultati salvati, una volta sola.
 
     La data di modifica del CSV (``modified_ns``) fa parte della chiave della
-    cache: se la simulazione viene rilanciata, i file vengono riletti. La
-    didascalia riporta solo il nome della cartella: il percorso completo
-    mostrerebbe il nome utente del PC o del server.
+    cache: se la simulazione viene rilanciata, i file vengono riletti.
     """
-    return _analyse(
-        SimulationResults.load(Path(directory)),
-        f"Scenario salvato (cartella {Path(directory).name}).",
-    )
+    return _analyse(SimulationResults.load(Path(directory)))
 
 
 @st.cache_data(show_spinner=False)
-def _simulate(hours: float, capacity_wh: float, release_rate_deg_s: float) -> _Mission:
+def _simulate(hours: float, capacity_wh: float, release_rate_deg_s: float) -> _Analysis:
     """Esegue e analizza una nuova simulazione; stessi parametri, stessa corsa.
 
     Parte dallo scenario di riferimento, con il suo seme, e cambia solo i
@@ -185,12 +196,7 @@ def _simulate(hours: float, capacity_wh: float, release_rate_deg_s: float) -> _M
     data["simulation"]["duration_h"] = hours
     data["battery"]["capacity_wh"] = capacity_wh
     data["initial_state"]["max_rate_deg_s"] = release_rate_deg_s
-    results = run_simulation(MissionConfig.model_validate(data))
-    return _analyse(
-        results,
-        f"Nuova simulazione, non salvata: batteria da {capacity_wh:g} Wh, "
-        f"rotazione al rilascio fino a {release_rate_deg_s:g} °/s.",
-    )
+    return _analyse(run_simulation(MissionConfig.model_validate(data)))
 
 
 def _choose_mission(results_dir: Path) -> _Mission | None:
@@ -210,7 +216,12 @@ def _choose_mission(results_dir: Path) -> _Mission | None:
                 f"Lanciare prima, dalla cartella del progetto: {_RUN_COMMAND}"
             )
             return None
-        return _load_saved(str(results_dir), csv_path.stat().st_mtime_ns)
+        # Solo il nome della cartella: il percorso completo mostrerebbe il nome
+        # utente del PC o del server.
+        return _Mission(
+            f"Scenario salvato (cartella {results_dir.name}).",
+            *_load_saved(str(results_dir), csv_path.stat().st_mtime_ns),
+        )
 
     baseline = load_config(BASELINE_CONFIG)
     with st.sidebar.form("new_simulation"):
@@ -247,8 +258,15 @@ def _choose_mission(results_dir: Path) -> _Mission | None:
             "di comando."
         )
         return None
-    with st.spinner(f"Simulazione di {parameters[0]:g} h in corso..."):
-        return _simulate(*parameters)
+    # Valori dell'ultima pressione di Simula, non quelli ancora nel modulo.
+    run_h, run_capacity_wh, run_rate_deg_s = parameters
+    with st.spinner(f"Simulazione di {run_h:g} h in corso..."):
+        analysis = _simulate(run_h, run_capacity_wh, run_rate_deg_s)
+    return _Mission(
+        f"Nuova simulazione, non salvata: batteria da {run_capacity_wh:g} Wh, "
+        f"rotazione al rilascio fino a {run_rate_deg_s:g} °/s.",
+        *analysis,
+    )
 
 
 def _show_metrics(mission: _Mission) -> None:

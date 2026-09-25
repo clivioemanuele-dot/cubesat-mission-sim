@@ -2,7 +2,9 @@
 
 import datetime as dt
 import math
+import pickle
 import sys
+import types
 from collections.abc import Iterator
 from pathlib import Path
 from typing import Any
@@ -150,6 +152,21 @@ def test_slider_selects_saved_sample(results_dir: Path) -> None:
     end = start + dt.timedelta(seconds=float(series["time_s"].iloc[-1]))
     app = app.slider[0].set_value(end).run()
     assert app.metric[3].value == position(series, -1)
+
+
+def test_cached_values_survive_another_session(results_dir: Path) -> None:
+    # Streamlit esegue app.py come modulo __main__ e lo sostituisce a ogni
+    # esecuzione, anche fra visitatori collegati insieme. I valori che
+    # st.cache_data salva con pickle devono usare solo classi dei moduli del
+    # pacchetto: con una classe definita in app.py, due visitatori insieme
+    # producevano un PicklingError (visto su Streamlit Community Cloud).
+    from cubesat_sim.dashboard import app
+
+    analysis = app._analyse(SimulationResults.load(results_dir))
+    assert all(type(value).__module__ != app.__name__ for value in analysis)
+    # Un'altra sessione ha appena sostituito il modulo __main__.
+    sys.modules["__main__"] = types.ModuleType("__main__")
+    assert pickle.loads(pickle.dumps(analysis))[0].metadata == analysis[0].metadata
 
 
 def test_missing_results_are_explained(tmp_path: Path) -> None:
