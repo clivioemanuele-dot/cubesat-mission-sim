@@ -1,0 +1,8 @@
+# Tema della dashboard Streamlit: scuro, a tema spazio. Lo sfondo stellato e i
+# riquadri semitrasparenti sono disegnati con CSS in src/cubesat_sim/dashboard/app.py.
+[theme]
+base = "dark"
+primaryColor = "#3987e5"
+backgroundColor = "#070b16"
+secondaryBackgroundColor = "#0f1629"
+textColor = "#e6e9f2"
