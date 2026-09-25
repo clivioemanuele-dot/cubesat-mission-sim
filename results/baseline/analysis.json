@@ -1,0 +1,183 @@
+{
+  "notice": "DATI SIMULATI: prodotti da cubesat-mission-sim, non provengono da alcun satellite reale.",
+  "metrics": {
+    "duration_h": 24.0,
+    "detumble_time_h": 1.7341666666666666,
+    "mode_hours": {
+      "SAFE": 0.0,
+      "DETUMBLE": 1.7341666666666666,
+      "DOWNLINK": 0.28555555555555556,
+      "NADIR": 0.06777777777777778,
+      "SUN_POINTING": 21.9125
+    },
+    "pointing": [
+      {
+        "mode": "DOWNLINK",
+        "mean_deg": 16.15922231763947,
+        "p95_deg": 68.25597180673174,
+        "max_deg": 110.34187248010562
+      },
+      {
+        "mode": "NADIR",
+        "mean_deg": 5.773391729237249,
+        "p95_deg": 25.624220649709088,
+        "max_deg": 29.587197284157945
+      },
+      {
+        "mode": "SUN_POINTING",
+        "mean_deg": 1.0753137868981648,
+        "p95_deg": 3.313182006878734,
+        "max_deg": 94.64313198768677
+      }
+    ],
+    "wheel_saturation_events": 0,
+    "wheel_saturation_s": 0.0,
+    "max_wheel_momentum_fraction": 0.21540894878772002,
+    "station_visible_h": 0.2861111111111111,
+    "link_availability": 0.7184466019417476,
+    "orbits": [
+      {
+        "orbit": 1,
+        "start_h": 0.0,
+        "generated_wh": 6.894672864308982,
+        "consumed_wh": 3.269614057594251,
+        "net_wh": 3.6250588067147307,
+        "min_state_of_charge": 0.683979016526736
+      },
+      {
+        "orbit": 2,
+        "start_h": 1.5769383412571831,
+        "generated_wh": 20.54076440749782,
+        "consumed_wh": 3.158821158024339,
+        "net_wh": 17.381943249473483,
+        "min_state_of_charge": 0.7683462671679195
+      },
+      {
+        "orbit": 3,
+        "start_h": 3.1538766825143663,
+        "generated_wh": 20.5537444503508,
+        "consumed_wh": 3.1556866087473927,
+        "net_wh": 17.398057841603407,
+        "min_state_of_charge": 0.9696224932784152
+      },
+      {
+        "orbit": 4,
+        "start_h": 4.730815023771549,
+        "generated_wh": 20.560815601917096,
+        "consumed_wh": 3.1557822203657393,
+        "net_wh": 17.405033381551355,
+        "min_state_of_charge": 0.9696014309345464
+      },
+      {
+        "orbit": 5,
+        "start_h": 6.3077533650287325,
+        "generated_wh": 20.562364319705697,
+        "consumed_wh": 3.1558737374943364,
+        "net_wh": 17.40649058221136,
+        "min_state_of_charge": 0.9695567791324876
+      },
+      {
+        "orbit": 6,
+        "start_h": 7.884691706285916,
+        "generated_wh": 20.575016227328614,
+        "consumed_wh": 3.1559819361316213,
+        "net_wh": 17.419034291196994,
+        "min_state_of_charge": 0.969511412605916
+      },
+      {
+        "orbit": 7,
+        "start_h": 9.461630047543098,
+        "generated_wh": 19.70548954918544,
+        "consumed_wh": 3.7078001312004965,
+        "net_wh": 15.997689417984944,
+        "min_state_of_charge": 0.9696272877389258
+      },
+      {
+        "orbit": 8,
+        "start_h": 11.038568388800282,
+        "generated_wh": 20.41555980822432,
+        "consumed_wh": 3.3035568016759096,
+        "net_wh": 17.11200300654841,
+        "min_state_of_charge": 0.9695821774630952
+      },
+      {
+        "orbit": 9,
+        "start_h": 12.615506730057465,
+        "generated_wh": 20.600235001603725,
+        "consumed_wh": 3.1562877790144235,
+        "net_wh": 17.4439472225893,
+        "min_state_of_charge": 0.9695516093261444
+      },
+      {
+        "orbit": 10,
+        "start_h": 14.19244507131465,
+        "generated_wh": 20.61330668790476,
+        "consumed_wh": 3.1563899627117644,
+        "net_wh": 17.456916725192997,
+        "min_state_of_charge": 0.9696439336261112
+      },
+      {
+        "orbit": 11,
+        "start_h": 15.769383412571832,
+        "generated_wh": 20.620089364078304,
+        "consumed_wh": 3.1565275989236476,
+        "net_wh": 17.463561765154655,
+        "min_state_of_charge": 0.9696220593298692
+      },
+      {
+        "orbit": 12,
+        "start_h": 17.346321753829017,
+        "generated_wh": 20.632876575921028,
+        "consumed_wh": 3.156641704234846,
+        "net_wh": 17.47623487168618,
+        "min_state_of_charge": 0.9695763532593636
+      },
+      {
+        "orbit": 13,
+        "start_h": 18.923260095086196,
+        "generated_wh": 20.6401928939313,
+        "consumed_wh": 3.1567750460498387,
+        "net_wh": 17.483417847881462,
+        "min_state_of_charge": 0.9695458578788428
+      },
+      {
+        "orbit": 14,
+        "start_h": 20.500198436343382,
+        "generated_wh": 20.653413236198347,
+        "consumed_wh": 3.630967875912991,
+        "net_wh": 17.022445360285356,
+        "min_state_of_charge": 0.957173976413175
+      },
+      {
+        "orbit": 15,
+        "start_h": 22.077136777600565,
+        "generated_wh": 20.657486450327788,
+        "consumed_wh": 3.335508082583506,
+        "net_wh": 17.321978367744283,
+        "min_state_of_charge": 0.9649192359892956
+      }
+    ],
+    "min_state_of_charge": 0.683979016526736,
+    "data_acquired_gbit": 0.488,
+    "data_downlinked_gbit": 0.488,
+    "data_on_board_gbit": 0.0,
+    "data_lost_gbit": 0.0
+  },
+  "pointing_energy_trade": {
+    "period_min": 94.61630047543099,
+    "sunlit_fraction": 0.6320422535211268,
+    "sun_pointing_wh": 20.490172857449366,
+    "nadir_pointing_wh": 15.934857007255964,
+    "loss_wh": 4.555315850193402,
+    "loss_fraction": 0.22231710205105862,
+    "sun_pointing_power_w": 20.55818626836415,
+    "nadir_pointing_power_w": 15.987749873755561
+  },
+  "battery_sizing_trade": {
+    "configured_capacity_wh": 40.0,
+    "safe_threshold": 0.3,
+    "min_capacity_wh": 2.447509765625,
+    "max_drawdown_wh": 1.7107006603394581,
+    "max_depth_of_discharge": 0.04276751650848645
+  }
+}

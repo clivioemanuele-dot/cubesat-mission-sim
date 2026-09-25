@@ -1,0 +1,248 @@
+{
+  "notice": "DATI SIMULATI: prodotti da cubesat-mission-sim, non provengono da alcun satellite reale.",
+  "seed": 42,
+  "config": {
+    "simulation": {
+      "seed": 42,
+      "start_epoch": "2026-09-23T00:00:00Z",
+      "duration_h": 24.0,
+      "integration_step_s": 0.25,
+      "output_step_s": 10.0
+    },
+    "initial_state": {
+      "max_rate_deg_s": 10.0
+    },
+    "satellite": {
+      "mass_kg": 4.0,
+      "size_cm": [
+        10.0,
+        10.0,
+        34.0
+      ],
+      "inertia_kg_m2": [
+        0.042,
+        0.042,
+        0.007
+      ],
+      "residual_dipole_am2": [
+        0.0,
+        0.0,
+        0.005
+      ]
+    },
+    "orbit": {
+      "altitude_km": 500.0,
+      "inclination_deg": 97.4,
+      "descending_node_local_time": "10:30:00",
+      "initial_argument_of_latitude_deg": 0.0
+    },
+    "ground_station": {
+      "name": "Roma",
+      "latitude_deg": 41.9,
+      "longitude_deg": 12.5,
+      "altitude_m": 50.0,
+      "min_elevation_deg": 10.0
+    },
+    "sensors": {
+      "attitude_noise_deg": 0.02,
+      "rate_noise_deg_s": 0.01,
+      "magnetometer_noise_nt": 50.0
+    },
+    "actuators": {
+      "wheel_max_torque_mnm": 1.0,
+      "wheel_max_momentum_mnms": 10.0,
+      "wheel_max_speed_rpm": 6000.0,
+      "magnetorquer_max_dipole_am2": 0.2
+    },
+    "control": {
+      "control_period_s": 1.0,
+      "pd_natural_frequency_rad_s": 0.1,
+      "pd_damping_ratio": 0.7,
+      "max_slew_rate_deg_s": 1.0
+    },
+    "solar_array": {
+      "cell_efficiency": 0.3,
+      "derating_factor": 0.8,
+      "sun_pointing_axis_body": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "panels": [
+        {
+          "name": "wing_1",
+          "area_cm2": 211.3,
+          "normal_body": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "wing_2",
+          "area_cm2": 211.3,
+          "normal_body": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "body_px",
+          "area_cm2": 211.3,
+          "normal_body": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "body_mx",
+          "area_cm2": 211.3,
+          "normal_body": [
+            -1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "body_py",
+          "area_cm2": 211.3,
+          "normal_body": [
+            0.0,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "name": "body_my",
+          "area_cm2": 211.3,
+          "normal_body": [
+            0.0,
+            -1.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    "battery": {
+      "capacity_wh": 40.0,
+      "charge_efficiency": 0.95,
+      "discharge_efficiency": 0.95,
+      "initial_soc_pct": 70.0
+    },
+    "loads": {
+      "obc_w": 0.5,
+      "adcs_base_w": 1.5,
+      "wheel_max_power_w": 0.5,
+      "magnetorquer_max_power_w": 0.25,
+      "transmitter_w": 4.0,
+      "camera_w": 3.0
+    },
+    "payload": {
+      "camera_boresight_body": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "camera_data_rate_mbps": 2.0,
+      "storage_capacity_gbit": 8.0,
+      "antenna_boresight_body": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "antenna_beamwidth_deg": 40.0,
+      "downlink_rate_mbps": 1.0
+    },
+    "imaging": {
+      "region_name": "Europa",
+      "latitude_min_deg": 36.0,
+      "latitude_max_deg": 60.0,
+      "longitude_min_deg": -10.0,
+      "longitude_max_deg": 30.0
+    },
+    "modes": {
+      "safe_enter_soc_pct": 30.0,
+      "safe_exit_soc_pct": 50.0,
+      "detumble_enter_rate_deg_s": 2.0,
+      "detumble_exit_rate_deg_s": 0.5,
+      "confirmation_time_s": 10.0
+    }
+  },
+  "initial_state": {
+    "attitude": [
+      0.18817375576319426,
+      -0.6422275881713418,
+      0.4634306030554158,
+      0.5808325393650813
+    ],
+    "angular_velocity_rad_s": [
+      -0.14495388619050584,
+      -0.09674657901355753,
+      0.009498015904082668
+    ]
+  },
+  "transitions": [
+    {
+      "time_s": 6243.0,
+      "previous": "DETUMBLE",
+      "current": "SUN_POINTING",
+      "cause": "rotazione smorzata (0.51 °/s)"
+    },
+    {
+      "time_s": 35951.0,
+      "previous": "SUN_POINTING",
+      "current": "NADIR",
+      "cause": "inizio della finestra di acquisizione"
+    },
+    {
+      "time_s": 36019.0,
+      "previous": "NADIR",
+      "current": "DOWNLINK",
+      "cause": "stazione di terra visibile"
+    },
+    {
+      "time_s": 36463.0,
+      "previous": "DOWNLINK",
+      "current": "SUN_POINTING",
+      "cause": "stazione di terra non più visibile"
+    },
+    {
+      "time_s": 41628.0,
+      "previous": "SUN_POINTING",
+      "current": "NADIR",
+      "cause": "inizio della finestra di acquisizione"
+    },
+    {
+      "time_s": 41804.0,
+      "previous": "NADIR",
+      "current": "SUN_POINTING",
+      "cause": "fine della finestra di acquisizione"
+    },
+    {
+      "time_s": 74282.0,
+      "previous": "SUN_POINTING",
+      "current": "DOWNLINK",
+      "cause": "stazione di terra visibile"
+    },
+    {
+      "time_s": 74707.0,
+      "previous": "DOWNLINK",
+      "current": "SUN_POINTING",
+      "cause": "stazione di terra non più visibile"
+    },
+    {
+      "time_s": 80050.0,
+      "previous": "SUN_POINTING",
+      "current": "DOWNLINK",
+      "cause": "stazione di terra visibile"
+    },
+    {
+      "time_s": 80209.0,
+      "previous": "DOWNLINK",
+      "current": "SUN_POINTING",
+      "cause": "stazione di terra non più visibile"
+    }
+  ]
+}

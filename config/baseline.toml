@@ -1,0 +1,126 @@
+# Scenario di riferimento del simulatore di missione CubeSat 3U.
+# L'unità di misura è indicata dal suffisso del nome (km, deg, cm2, wh, ...):
+# il programma converte tutto in unità SI al caricamento.
+# La giustificazione di ogni valore è in docs/assumptions.md.
+# Tutti i dati prodotti con questo scenario sono simulati.
+
+[simulation]
+seed = 42                                  # seme del generatore casuale (riproducibilità)
+start_epoch = 2026-09-23T00:00:00Z         # istante iniziale, UTC (giorno dell'equinozio)
+duration_h = 24.0                          # durata simulata
+integration_step_s = 0.25                  # passo fisso dell'integratore RK4
+output_step_s = 10.0                       # passo di salvataggio dei risultati
+
+[initial_state]
+max_rate_deg_s = 10.0                      # velocità angolare massima al rilascio
+
+[satellite]
+mass_kg = 4.0
+size_cm = [10.0, 10.0, 34.0]               # dimensioni lungo gli assi X, Y, Z del corpo
+inertia_kg_m2 = [0.042, 0.042, 0.007]      # momenti principali di inerzia (assi del corpo)
+residual_dipole_am2 = [0.0, 0.0, 0.005]    # dipolo magnetico residuo, assi del corpo
+
+[orbit]
+altitude_km = 500.0
+inclination_deg = 97.4                     # eliosincrona a 500 km
+descending_node_local_time = 10:30:00      # ora solare locale al nodo discendente
+initial_argument_of_latitude_deg = 0.0     # 0 = sul nodo ascendente all'istante iniziale
+
+[ground_station]
+name = "Roma"
+latitude_deg = 41.90
+longitude_deg = 12.50
+altitude_m = 50.0
+min_elevation_deg = 10.0                   # sotto questa elevazione la stazione non è usabile
+
+[sensors]
+# Deviazioni standard (1 sigma, per asse) del rumore di misura.
+attitude_noise_deg = 0.02
+rate_noise_deg_s = 0.01
+magnetometer_noise_nt = 50.0
+
+[actuators]
+# Tre ruote di reazione e tre magnetorquer, allineati con gli assi del corpo.
+wheel_max_torque_mnm = 1.0                 # coppia massima di ogni ruota (mN·m)
+wheel_max_momentum_mnms = 10.0             # momento angolare massimo di ogni ruota (mN·m·s)
+wheel_max_speed_rpm = 6000.0               # velocità della ruota a momento massimo
+magnetorquer_max_dipole_am2 = 0.2          # dipolo massimo di ogni magnetorquer
+
+[control]
+control_period_s = 1.0                     # controllo discreto a 1 Hz
+pd_natural_frequency_rad_s = 0.1           # banda del controllo di puntamento
+pd_damping_ratio = 0.7                     # smorzamento del controllo di puntamento
+max_slew_rate_deg_s = 1.0                  # velocità massima nelle manovre di grande angolo
+
+[solar_array]
+cell_efficiency = 0.30                     # celle GaAs a tripla giunzione
+derating_factor = 0.80                     # perdite: temperatura, MPPT, cablaggio, invecchiamento
+sun_pointing_axis_body = [1.0, 0.0, 0.0]   # asse da puntare verso il Sole
+
+# Pannelli: 7 celle da 30,18 cm2 ciascuno; normale uscente, assi del corpo.
+[[solar_array.panels]]
+name = "wing_1"
+area_cm2 = 211.3
+normal_body = [1.0, 0.0, 0.0]
+
+[[solar_array.panels]]
+name = "wing_2"
+area_cm2 = 211.3
+normal_body = [1.0, 0.0, 0.0]
+
+[[solar_array.panels]]
+name = "body_px"
+area_cm2 = 211.3
+normal_body = [1.0, 0.0, 0.0]
+
+[[solar_array.panels]]
+name = "body_mx"
+area_cm2 = 211.3
+normal_body = [-1.0, 0.0, 0.0]
+
+[[solar_array.panels]]
+name = "body_py"
+area_cm2 = 211.3
+normal_body = [0.0, 1.0, 0.0]
+
+[[solar_array.panels]]
+name = "body_my"
+area_cm2 = 211.3
+normal_body = [0.0, -1.0, 0.0]
+
+[battery]
+capacity_wh = 40.0
+charge_efficiency = 0.95
+discharge_efficiency = 0.95
+initial_soc_pct = 70.0                     # stato di carica al rilascio
+
+[loads]
+obc_w = 0.5                                # computer di bordo, sempre acceso
+adcs_base_w = 1.5                          # sensori ed elettronica ADCS, sempre accesi
+wheel_max_power_w = 0.5                    # per ruota, alla coppia massima
+magnetorquer_max_power_w = 0.25            # per magnetorquer, al dipolo massimo
+transmitter_w = 4.0                        # solo durante lo scarico dati
+camera_w = 3.0                             # solo durante l'acquisizione
+
+[payload]
+camera_boresight_body = [0.0, 0.0, 1.0]    # direzione di vista della fotocamera
+camera_data_rate_mbps = 2.0                # dati generati durante l'acquisizione
+storage_capacity_gbit = 8.0                # memoria di massa di bordo
+antenna_boresight_body = [0.0, 0.0, 1.0]   # asse dell'antenna in banda S
+antenna_beamwidth_deg = 40.0               # ampiezza del fascio a metà potenza
+downlink_rate_mbps = 1.0
+
+[imaging]
+# Acquisizione quando il punto sotto il satellite è nella regione e il satellite è al Sole.
+region_name = "Europa"
+latitude_min_deg = 36.0
+latitude_max_deg = 60.0
+longitude_min_deg = -10.0
+longitude_max_deg = 30.0
+
+[modes]
+safe_enter_soc_pct = 30.0                  # sotto questa carica si entra in SAFE
+safe_exit_soc_pct = 50.0                   # sopra questa carica si esce da SAFE
+detumble_enter_rate_deg_s = 2.0            # sopra questa velocità si entra in DETUMBLE
+detumble_exit_rate_deg_s = 0.5             # sotto questa velocità si esce da DETUMBLE
+confirmation_time_s = 10.0                 # durata minima della condizione prima di cambiare modo

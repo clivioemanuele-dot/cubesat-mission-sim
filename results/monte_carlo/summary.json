@@ -1,0 +1,15 @@
+{
+  "notice": "DATI SIMULATI: prodotti da cubesat-mission-sim, non provengono da alcun satellite reale.",
+  "hours_per_run": 3.0,
+  "seeds": [
+    1,
+    100
+  ],
+  "statistics": {
+    "runs": 100,
+    "completed": 100,
+    "mean_h": 1.8933166666666665,
+    "p95_h": 2.2366944444444443,
+    "max_h": 2.331111111111111
+  }
+}
