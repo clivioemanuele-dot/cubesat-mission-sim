@@ -167,7 +167,8 @@ Il codice, i test e la documentazione di questo repository sono stati scritti
 da un assistente di intelligenza artificiale, in una
 conversazione guidata passo per passo. Chi pubblica il repository ha fissato
 obiettivi, requisiti e ipotesi di missione, ha eseguito ogni passo sul proprio
-computer e non rivendica la paternità del codice.
+computer e ne ha controllato l'esito con i test e i controlli di qualità
+descritti sopra; non rivendica la paternità del codice.
 
 Il progetto ha scopo dimostrativo ed è fornito così com'è, senza garanzie di
 alcun tipo.
